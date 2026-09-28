@@ -27,13 +27,11 @@
 
 Keep your Windows workspace and OBS program scene on the same macro key. Build different routing profiles for streaming, recording, or studio work, then switch between them from the app or system tray.
 
-Designed for Corsair G keys, keyboards, and macro pads that can send **Ctrl+Alt+Shift+F1–F24**. The interface combines a dark terminal palette, cyan routing controls, magenta accents, and a quiet retro grid.
-
 <p align="center">
   <img src="docs/assets/bridge-preview.png" alt="Streaming Bridge showing two saved profiles, six editable macro routes, per-profile OBS connection settings, and a status console" width="1140">
 </p>
 
-<p align="center"><sub>Actual application controls, rendered off screen with sample data. Screenshots contain no personal settings or credentials.</sub></p>
+<p align="center"><sub>Actual application controls, rendered off screen with sample data.</sub></p>
 
 ## Features
 
@@ -118,20 +116,7 @@ GitHub Actions builds both programs and runs the offline checks on Windows. Test
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the source layout, visual preview workflow, and development conventions.
 
-## What belongs in this repository
-
-This repository contains source code, documentation, licenses, and intentional showcase images. Personal profiles, connection settings, encrypted credentials, runtime reports, backups, compiled programs, dependency output, test output, and ZIP packages are excluded.
-
-The pre-commit guard checks the staged snapshot. The pre-push guard checks all reachable history, including removed files. Both report file names and rule names without echoing detected secrets. Run the complete audit before publishing:
-
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-repository.ps1 -History
-```
-
-The guards detect common credential patterns and private files; review your changes before sharing. Build and packaging output stays local.
-
 ## Credits and license
 
-Created by [Christopher Peret](https://www.chrisperet.net/). The visual direction draws from his portfolio and the terminal-inspired cyan/magenta panels of [Top Quark Studios](https://tqstudios.dev/).
-
+Created by [Christopher Peret](https://www.chrisperet.net/). 
 Streaming Bridge is [MIT licensed](LICENSE). The included desktop helper is Markus Scholtes's [VirtualDesktop](https://github.com/MScholtes/VirtualDesktop), with its original [MIT notice](desktop/LICENSE.VirtualDesktop). OBS protocol reference: [obs-websocket v5](https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md).
