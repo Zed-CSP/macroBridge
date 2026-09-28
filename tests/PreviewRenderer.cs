@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
@@ -35,13 +36,34 @@ namespace StreamingBridge
             using (Bitmap layer = new Bitmap(control.Width, control.Height))
             {
                 control.DrawToBitmap(layer, new Rectangle(Point.Empty, control.Size));
+                ComboBox selector = control as ComboBox;
+                // Hidden native dropdown lists omit their owner-drawn selection during WM_PRINT.
+                // Draw the same selected text and colors used by SceneSelector.OnDrawItem.
+                if (selector != null && selector.DropDownStyle == ComboBoxStyle.DropDownList && selector.SelectedIndex >= 0)
+                {
+                    using (Graphics selected = Graphics.FromImage(layer))
+                    using (Brush fill = new SolidBrush(selector.BackColor))
+                    {
+                        Rectangle field = new Rectangle(2, 2, Math.Max(1, selector.Width - SystemInformation.VerticalScrollBarWidth - 4), Math.Max(1, selector.Height - 4));
+                        selected.FillRectangle(fill, field);
+                        field.X += 6; field.Width -= 6;
+                        TextRenderer.DrawText(selected, selector.GetItemText(selector.SelectedItem), selector.Font, field, selector.ForeColor,
+                            TextFormatFlags.Left | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis);
+                    }
+                }
                 graphics.DrawImageUnscaled(layer, origin);
             }
-            for (int index = control.Controls.Count - 1; index >= 0; index--)
+            System.Drawing.Drawing2D.GraphicsState state = graphics.Save();
+            try
             {
-                Control child = control.Controls[index];
-                Paint(child, graphics, new Point(origin.X + child.Left, origin.Y + child.Top));
+                graphics.SetClip(new Rectangle(origin, control.ClientSize), System.Drawing.Drawing2D.CombineMode.Intersect);
+                for (int index = control.Controls.Count - 1; index >= 0; index--)
+                {
+                    Control child = control.Controls[index];
+                    Paint(child, graphics, new Point(origin.X + child.Left, origin.Y + child.Top));
+                }
             }
+            finally { graphics.Restore(state); }
         }
     }
 }

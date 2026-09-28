@@ -7,7 +7,7 @@ if (-not (Test-Path -LiteralPath $compilerPath)) { throw 'The Windows .NET Frame
 $outputDirectory = Join-Path $PSScriptRoot 'test-output'
 $null = New-Item -ItemType Directory -Path $outputDirectory -Force
 $references = @('/r:System.dll', '/r:System.Core.dll', '/r:System.Drawing.dll', '/r:System.Windows.Forms.dll', '/r:System.Web.Extensions.dll', '/r:System.Security.dll')
-$appSources = @('App.cs', 'ObsClient.cs', 'Ui.cs', 'Theme.cs') | ForEach-Object { Join-Path $PSScriptRoot $_ }
+$appSources = @('App.cs', 'Config.cs', 'ObsClient.cs', 'Ui.cs', 'Theme.cs') | ForEach-Object { Join-Path $PSScriptRoot $_ }
 $suites = @(
     @{ Name = 'AppTests'; Main = 'StreamingBridge.AppTests'; Sources = @($appSources) + (Join-Path $PSScriptRoot 'AppTests.cs') },
     @{ Name = 'ObsClientTests'; Main = 'ObsClientTests'; Sources = @((Join-Path $PSScriptRoot 'ObsClient.cs'), (Join-Path $PSScriptRoot 'tests\ObsClientTests.cs')) },

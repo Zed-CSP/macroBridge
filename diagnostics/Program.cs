@@ -21,6 +21,12 @@ try
     using JsonDocument doc = JsonDocument.Parse(File.ReadAllText(configPath));
     JsonElement root = doc.RootElement;
     configStep = "fields";
+    if (root.TryGetProperty("Profiles", out JsonElement profiles))
+    {
+        if (root.GetProperty("Version").GetInt32() != 2) throw new InvalidDataException();
+        string activeId = root.GetProperty("ActiveProfileId").GetString() ?? "";
+        root = profiles.EnumerateArray().Single(profile => profile.GetProperty("Id").GetString() == activeId);
+    }
     host = root.GetProperty("Host").GetString() ?? "";
     port = root.GetProperty("Port").GetInt32();
     string protectedPassword = root.GetProperty("ProtectedPassword").GetString() ?? "";

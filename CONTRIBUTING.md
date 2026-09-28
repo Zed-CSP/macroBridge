@@ -9,9 +9,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\test.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\test-repository-check.ps1
 ```
 
-Keep the bridge compatible with the built-in .NET Framework C# compiler (C# 5). `App.cs` owns configuration, orchestration, and tray behavior; `Ui.cs` owns layout; `Theme.cs` owns colors and custom controls; `ObsClient.cs` owns the OBS v5 protocol.
+Keep the bridge compatible with the built-in .NET Framework C# compiler (C# 5). `Config.cs` owns profiles, macro validation, credential storage, and legacy migration; `App.cs` owns orchestration, hotkey activation, and tray behavior; `Ui.cs` owns layout and the macro row editor; `Theme.cs` owns colors and custom controls; `ObsClient.cs` owns the OBS v5 protocol.
 
-Use synthetic hosts such as `obs-studio.local` or the documentation address `192.0.2.10` in fixtures. Do not include saved settings, credentials, real LAN addresses, local logs, or screenshots with personal scene names. Preserve exact scene strings, including Unicode and spaces.
+Use synthetic hosts such as `obs-studio.local` or the documentation address `192.0.2.10` in fixtures. Do not include saved settings, profile backups, credentials, real LAN addresses, local logs, or screenshots with personal scene names. Preserve exact scene strings, including Unicode and spaces. Migration must retain the original encrypted credential and make a backup before writing the upgraded settings. Removing a macro must not renumber the remaining bindings; profile activation must clear old queued hotkeys.
 
 For visual changes, regenerate the sample-data preview with `scripts/render-preview.ps1` and inspect it at the normal and minimum window sizes. Keep native keyboard access, a masked password field, and clear Test behavior.
 

@@ -6,7 +6,7 @@ $compilerPath = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.
 if (-not (Test-Path -LiteralPath $compilerPath)) { throw 'The Windows .NET Framework C# compiler was not found.' }
 $null = New-Item -ItemType Directory -Path $OutputDirectory -Force
 $outputPath = Join-Path $OutputDirectory 'StreamingBridge.exe'
-$sourcePaths = @('App.cs', 'ObsClient.cs', 'Ui.cs', 'Theme.cs') | ForEach-Object { Join-Path $PSScriptRoot $_ }
+$sourcePaths = @('App.cs', 'Config.cs', 'ObsClient.cs', 'Ui.cs', 'Theme.cs') | ForEach-Object { Join-Path $PSScriptRoot $_ }
 foreach ($sourcePath in $sourcePaths) {
     if (-not (Test-Path -LiteralPath $sourcePath)) { throw "Missing source: $sourcePath" }
 }

@@ -1,6 +1,6 @@
 # Read-only OBS authentication check
 
-This diagnostic uses [obs-websocket-dotnet 5.7.0](https://www.nuget.org/packages/obs-websocket-dotnet/5.7.0) rather than the bridge's custom WebSocket client. It reads `../config.json`, decrypts the saved credential with Windows DPAPI for the current Windows user, waits for OBS authentication, and requests only the scene list. It never changes a scene or prints the password.
+This diagnostic uses [obs-websocket-dotnet 5.7.0](https://www.nuget.org/packages/obs-websocket-dotnet/5.7.0) rather than the bridge's custom WebSocket client. It reads the active profile from `../config.json` (or an older single-profile configuration), decrypts the saved credential with Windows DPAPI for the current Windows user, waits for OBS authentication, and requests only the scene list. It never changes a scene or prints the password.
 
 From the bridge repository directory, build and run:
 

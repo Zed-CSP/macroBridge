@@ -149,7 +149,7 @@ namespace StreamingBridge
         {
             SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
-            AccessibleName = "Streaming Bridge. One key. Two systems. Six channels.";
+            AccessibleName = "Streaming Bridge. One key. Two systems. Your profiles.";
         }
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -171,10 +171,10 @@ namespace StreamingBridge
             {
                 g.FillRectangle(pink, 1, 8, 5, 5); g.DrawString("PERET / TOOLS / 01", small, cyan, 15, 3);
                 g.DrawString("STREAMING", title, text, -3, 22); g.DrawString("BRIDGE_", title, cyan, 211, 22);
-                g.DrawString("One key. Two systems. Six channels.", body, muted, 0, 75);
+                g.DrawString("One key. Two systems. Your profiles.", body, muted, 0, 75);
                 if (width > 820)
                 {
-                    float start = width - 355; string[] names = { "G1-G6", "WINDOWS", "OBS" };
+                    float start = width - 355; string[] names = { "MACROS", "WINDOWS", "OBS" };
                     using (Pen line = new Pen(BridgeTheme.Cyan, 1))
                     using (Pen border = new Pen(BridgeTheme.Line, 1))
                     {

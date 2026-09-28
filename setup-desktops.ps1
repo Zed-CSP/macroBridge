@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidateRange(1, 6)][int]$EnsureCount = 6,
+    [ValidateRange(1, 64)][int]$EnsureCount = 6,
     [switch]$TestRoundTrip
 )
 $ErrorActionPreference = 'Stop'
