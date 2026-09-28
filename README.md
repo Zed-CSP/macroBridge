@@ -1,150 +1,137 @@
 <p align="center">
-  <img src="docs/assets/banner.svg" alt="Streaming Bridge — one key, two systems, your profiles" width="100%">
+  <img src="docs/assets/banner.svg" alt="Streaming Bridge — one key, two systems, your profiles" width="1200">
 </p>
 
-# Streaming Bridge
-
-**Your workspace and your broadcast, on the same key.**
-
-A native Windows tray app that maps configurable keyboard shortcuts to numbered virtual desktops and OBS program scenes. Save different bridge profiles for streaming, recording, or studio work. Built for Corsair G keys and dual-machine streaming setups; works with any keyboard or macro pad that can send the shortcuts.
-
-Retro terminal styling. Cyan routing, magenta accents, a quiet CRT grid. No Python, Streamer.bot, or background web server required.
+<h1 align="center">Streaming Bridge</h1>
 
 <p align="center">
-  <img src="docs/assets/bridge-preview.png" alt="The dark Streaming Bridge app with saved profiles, an OBS connection panel, editable macro rows, and a status console. All displayed scenes are sample data." width="100%">
+  <strong>Your workspace and your broadcast, on the same key.</strong><br>
+  A native Windows tray app for routing macro keys to virtual desktops and OBS scenes.
 </p>
 
-*App preview rendered from the actual WinForms controls with sample data. No saved credentials, real network addresses, or personal scene names are used.*
+<p align="center">
+  <a href="https://github.com/Zed-CSP/macroBridge/actions/workflows/checks.yml"><img src="https://github.com/Zed-CSP/macroBridge/actions/workflows/checks.yml/badge.svg?branch=main" alt="Build and checks"></a>
+  <img src="https://img.shields.io/badge/Windows-11-42e8e0?style=flat-square&labelColor=0d171f" alt="Windows 11">
+  <img src="https://img.shields.io/badge/OBS-WebSocket%20v5-ff649f?style=flat-square&labelColor=0d171f" alt="OBS WebSocket v5">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-42e8e0?style=flat-square&labelColor=0d171f" alt="MIT license"></a>
+</p>
 
-## What it does
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="docs/CONFIGURATION.md">Configuration guide</a> ·
+  <a href="CONTRIBUTING.md">Contributing</a> ·
+  <a href="https://github.com/Zed-CSP/macroBridge/issues">Report an issue</a>
+</p>
 
-- **One key, two actions.** Select a numbered desktop, then the exact OBS program scene assigned to the macro.
-- **Build your own routing.** Add or remove up to 24 macros per profile. Choose each macro's F key and desktop number independently; removing a row keeps the other bindings intact.
-- **Swap saved profiles.** Create, copy, rename, delete, and activate profiles from the settings window. Select saved profiles from the tray menu too. Each keeps its own OBS connection, encrypted password, and macros.
-- **Check before switching.** Validate the OBS connection and scene name before changing your desktop.
-- **Keep the last press.** If shortcuts arrive while an operation is running, the newest pending key wins.
-- **Keep credentials local.** Save the OBS password using Windows DPAPI for the current Windows account.
-- **Stay in the tray.** Close settings to keep the bridge running; use the tray menu to configure, test, or exit.
+## One shortcut, two systems
 
-## Build and run
+Keep your Windows workspace and OBS program scene on the same macro key. Build different routing profiles for streaming, recording, or studio work, then switch between them from the app or system tray.
 
-Requirements: Windows 11 with a compatible virtual desktop helper, the Windows .NET Framework compiler, and OBS with its WebSocket v5 server enabled. The included helper targets the Windows 11 24H2 shell interfaces; Windows updates can change compatibility.
+Designed for Corsair G keys, keyboards, and macro pads that can send **Ctrl+Alt+Shift+F1–F24**. The interface combines a dark terminal palette, cyan routing controls, magenta accents, and a quiet retro grid.
 
-From the repository directory:
+<p align="center">
+  <img src="docs/assets/bridge-preview.png" alt="Streaming Bridge showing two saved profiles, six editable macro routes, per-profile OBS connection settings, and a status console" width="1140">
+</p>
+
+<p align="center"><sub>Actual application controls, rendered off screen with sample data. Screenshots contain no personal settings or credentials.</sub></p>
+
+## Features
+
+| Capability | Behavior |
+| --- | --- |
+| **Configurable macros** | Add or remove up to 24 macros per profile. Choose each shortcut, desktop number, and exact OBS scene independently. |
+| **Saved profiles** | Create, copy, rename, delete, and activate complete setups. Each retains its own OBS connection and encrypted password. |
+| **Checked routing** | Verify the OBS connection and assigned scene before switching desktops. Report partial failures in the console. |
+| **Latest press wins** | Keep the newest pending shortcut while an operation is running. Discard queued presses when profiles change. |
+| **Local credential storage** | Protect saved passwords with Windows DPAPI for the current Windows account. |
+| **Native tray operation** | Keep running when settings close. Configure, switch profiles, test saved macros, or exit from the tray. |
+| **Offline core build** | Compile the app and included desktop helper with the Windows .NET Framework compiler. No package download is required. |
+
+## How routing works
+
+<p align="center">
+  <img src="docs/assets/workflow.svg" alt="A macro shortcut enters Streaming Bridge, which validates the OBS scene, then selects the Windows desktop and sets the OBS program scene" width="1200">
+</p>
+
+Hotkeys use the active profile's **saved** mappings. The editor's **Test** buttons use the fields currently shown. Desktop and OBS changes happen sequentially; they are not an atomic operation. Manual desktop changes do not automatically change OBS scenes.
+
+## Quick start
+
+**Requirements:** Windows 11, OBS with its WebSocket v5 server enabled, Git, and the Windows .NET Framework compiler. The included desktop helper targets the **Windows 11 24H2 shell interfaces**; compatibility can change after a Windows update. See the [desktop helper notes](desktop/README.md).
+
+### 1. Clone and build
 
 ```powershell
+git clone https://github.com/Zed-CSP/macroBridge.git
+cd macroBridge
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
 .\StreamingBridge.exe --settings
 ```
 
-The build compiles the app **and** the desktop helper from source. It downloads no packages. Exit an already-running bridge from its tray menu before rebuilding its executable, or build separately with `-OutputDirectory .\artifacts\app`.
+The build produces the app and its desktop helper locally. Generated programs and build output are ignored by Git. Exit an already-running bridge before rebuilding its executable.
 
-1. In OBS, open **Tools → WebSocket Server Settings** and enable the server.
-2. Enter the OBS computer's hostname or IP address, its port (default `4455`), and its password. For OBS on this computer, use `localhost`.
-3. Select **Connect / load** to fetch scenes. This does not change OBS output.
-4. Assign an exact scene to each macro. Use **+ Add macro** or a row's **−** button to change the number of macros. Choose its F key and numbered desktop; a blank scene leaves the macro unassigned.
-5. Select **Save profile** to activate your edits, or **Save + run in tray** to save and close the window. Double-click the tray icon to open settings again.
+### 2. Configure OBS and your macros
 
-The bridge uses `ws://` on a trusted LAN. DPAPI protects the saved password on disk; it does not encrypt WebSocket traffic. Connecting and loading scenes are read-only. **Test** and hotkeys change the actual desktop and OBS program scene.
+1. In OBS, enable **Tools → WebSocket Server Settings → Enable WebSocket server**.
+2. Enter the OBS computer's hostname or IP address, port (default **4455**), and password. Use **localhost** when OBS runs on this PC.
+3. Select **Connect / load** to fetch the available scenes.
+4. Choose a shortcut, desktop number, and scene for each macro. Use **+ Add macro** and the row's **−** button to change the number of rows.
+5. Configure your keyboard or macro pad to send the shortcuts shown in the editor.
+6. Select **Save profile** to activate your edits, or **Save + run in tray** to save and close settings.
 
-## Saved profiles
+Create the target desktops in **Win+Tab** first. Connecting and loading scenes are read-only; **Test** and hotkeys change the actual Windows desktop and OBS program scene.
 
-Select a **Saved profile** to activate it. Switching saves the outgoing profile's current edits first; an invalid edit blocks the switch and stays in the editor. Activation updates the hotkeys without changing the current Windows desktop or OBS program scene. Queued presses from the previous profile are discarded.
+### 3. Save different setups
 
-Use **New +** for an empty profile or **Copy +** to duplicate your current setup, including its connection and encrypted credential. Change **Profile name / rename**, then save. **Delete** removes the selected profile after confirmation; at least one profile must remain. An empty profile is valid and registers no hotkeys.
+Use **New +** for an empty profile, **Copy +** to duplicate a setup, and the name field to rename it. Select a saved profile from the window or tray to activate it. Switching saves the outgoing edits and updates hotkeys without changing the current desktop or OBS scene.
 
-The first launch after upgrading an older six-key configuration saves it as **Original setup**, preserving all existing shortcuts, desktop numbers, exact scene names, and the encrypted password. A byte-for-byte backup stays beside the configuration as `config.json.before-profiles.bak`; it is local and excluded from Git and release packages. Use **Copy +** to experiment while keeping that profile intact.
+An older six-key configuration is preserved as **Original setup**, with an exact local backup. See [profiles and migration](docs/CONFIGURATION.md#profiles-and-migration) for details.
 
-## Keyboard routing
+<details>
+<summary><strong>See an alternate profile</strong></summary>
 
-These are the initial six bindings. Every row can select Ctrl+Alt+Shift plus any F key from **F1–F24**, and any desktop number from **1–64**. Each shortcut must be unique within its profile. The target desktop must already exist; different macros may select the same desktop with different scenes.
+<br>
+<img src="docs/assets/profiles-preview.png" alt="The Studio / minimal sample profile has three macros and a different desktop target, demonstrating independent saved configurations" width="1140">
 
-| Key | Shortcut | Windows target |
-| --- | --- | --- |
-| G1 | Ctrl+Alt+Shift+F1 | Desktop 1 |
-| G2 | Ctrl+Alt+Shift+F2 | Desktop 2 |
-| G3 | Ctrl+Alt+Shift+F3 | Desktop 3 |
-| G4 | Ctrl+Alt+Shift+F4 | Desktop 4 |
-| G5 | Ctrl+Alt+Shift+F5 | Desktop 5 |
-| G6 | Ctrl+Alt+Shift+F6 | Desktop 6 |
+*Profiles can use different numbers of macros and different desktop targets. This image uses sample data.*
 
-Assign the shortcuts shown in the editor in iCUE or your macro pad software. Saved bridge profiles control the bridge's routing; they do not change your keyboard's hardware or iCUE profile. For Corsair K100 onboard recording, exit the bridge while recording so the shortcut does not trigger an action. Follow [Corsair's recording instructions](https://help.corsair.com/hc/en-us/articles/360050055212-How-to-Set-up-the-iCUE-control-wheel-of-your-K100-RGB-keyboard), and use the hardware profile where you saved the macros. If iCUE overrides onboard settings, configure its active profile too.
+</details>
 
-Create the required desktops with **Win+Tab**, or run:
+## Configuration and troubleshooting
 
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\setup-desktops.ps1
-```
+The [configuration guide](docs/CONFIGURATION.md) covers default shortcuts, desktop numbering, Corsair/iCUE setup, profile behavior, credential storage, and common problems.
 
-This creates missing desktops up to six without deleting or renaming existing ones. Pass `-EnsureCount 8`, for example, for a larger setup. Desktop numbers follow their order in Task View; reordering or deleting a desktop changes what its number selects. Manual desktop changes do not automatically change OBS scenes.
+- [Quick-start guide](docs/QUICKSTART.md) — compact setup instructions.
+- [Desktop helper](desktop/README.md) — shell compatibility and upstream licensing.
+- [OBS diagnostic](diagnostics/README.md) — optional read-only authentication and scene-list check.
 
-## How a press travels
-
-```mermaid
-flowchart LR
-    K["G key / shortcut"] --> B["Streaming Bridge"]
-    B --> V["Validate OBS + scene"]
-    V --> D["Switch Windows desktop"]
-    D --> O["Set OBS program scene"]
-```
-
-Desktop and OBS changes are sequential, not frame-synchronized or atomic. If OBS fails after the desktop switches, the console reports the partial result. The hotkeys use saved mappings; the window's **Test** buttons use the fields currently shown.
-
-## Local files and publication checks
-
-`config.json` contains all saved profiles, their connection details, macros, and DPAPI-encrypted passwords, plus the active profile selection. `status.json` and `bridge.log` can contain connection details and scene names. All three, their temporary/backup copies, generated binaries, build folders, and credential files are excluded from Git.
-
-Install the repository's guards once per clone:
+## Development
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\install-hooks.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build.ps1 -OutputDirectory .\artifacts\app
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\test.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\test-repository-check.ps1
 ```
 
-The pre-commit hook checks the staged snapshot. The pre-push hook checks all reachable history, including files removed in later commits. They block private runtime files, common credential patterns, local network addresses, and personal home paths, reporting only file names and rule names.
+GitHub Actions builds both programs and runs the offline checks on Windows. Tests cover profile migration, exact backups, macro editing, profile switching, encrypted credentials, preview isolation, WebSocket authentication, fragmentation, timeouts, and publication guards. They use sample settings and mock transports; no live OBS request or desktop switch is required.
 
-Run the same checks manually:
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the source layout, visual preview workflow, and development conventions.
+
+## What belongs in this repository
+
+This repository contains source code, documentation, licenses, and intentional showcase images. Personal profiles, connection settings, encrypted credentials, runtime reports, backups, compiled programs, dependency output, test output, and ZIP packages are excluded.
+
+The pre-commit guard checks the staged snapshot. The pre-push guard checks all reachable history, including removed files. Both report file names and rule names without echoing detected secrets. Run the complete audit before publishing:
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-repository.ps1 -Staged
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-repository.ps1 -History
 ```
 
-These are targeted guards, not a guarantee that every possible secret can be detected. Review the staged diff before publishing. `git archive` includes committed source and showcase assets; it excludes your ignored local files.
-
-## Development and verification
-
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\test.ps1
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\test-repository-check.ps1
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\render-preview.ps1
-```
-
-Tests cover legacy migration and backups, profile persistence and switching, macro editing and validation, encrypted credentials, password redaction, scrolling layouts, preview isolation, fragmented WebSocket messages, authentication, timeouts, and publication guards. They use sample data and mock transports; no live OBS request or desktop switch is needed. DPAPI tests must run under a normal Windows user account with its profile loaded.
-
-GitHub Actions builds both programs and runs these checks on a Windows runner. The sample preview is generated from the same UI code as the app.
-
-Build a distributable without your local settings:
-
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\package.ps1
-```
-
-The ZIP contains only the app, its desktop helper, licenses, and a quick-start guide. Packaging uses a new staging folder and an explicit file list.
-
-## Troubleshooting
-
-| Symptom | Check |
-| --- | --- |
-| Connection refused or timed out | OBS is running, its WebSocket server is enabled, and both computers can reach each other through the firewall. |
-| Authentication failed | Re-enter the current password from OBS WebSocket Server Settings. |
-| G key does nothing | Try its full keyboard shortcut directly; then check the active macro profile and any reported hotkey conflict. |
-| Desktop does not exist | Create it in Win+Tab or run `setup-desktops.ps1`. |
-| Switching broke after a Windows update | Review or update the version-specific helper; see [desktop notes](desktop/README.md). |
-
-For an independent, read-only OBS authentication check, see [diagnostics](diagnostics/README.md). Keep a remote OBS computer awake and use a stable LAN hostname or DHCP reservation.
+The guards detect common credential patterns and private files; review your changes before sharing. Build and packaging output stays local.
 
 ## Credits and license
 
-Created by [Christopher Peret](https://www.chrisperet.net/). Visual direction draws from the terminal language of that portfolio and the cyan/magenta transmission panels of [Top Quark Studios](https://tqstudios.dev/).
+Created by [Christopher Peret](https://www.chrisperet.net/). The visual direction draws from his portfolio and the terminal-inspired cyan/magenta panels of [Top Quark Studios](https://tqstudios.dev/).
 
-The bridge is [MIT licensed](LICENSE). The vendored desktop helper is Markus Scholtes's [VirtualDesktop](https://github.com/MScholtes/VirtualDesktop), with its original [MIT notice](desktop/LICENSE.VirtualDesktop). OBS protocol reference: [obs-websocket v5](https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md).
+Streaming Bridge is [MIT licensed](LICENSE). The included desktop helper is Markus Scholtes's [VirtualDesktop](https://github.com/MScholtes/VirtualDesktop), with its original [MIT notice](desktop/LICENSE.VirtualDesktop). OBS protocol reference: [obs-websocket v5](https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md).
