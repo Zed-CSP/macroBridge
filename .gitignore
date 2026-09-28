@@ -1,0 +1,44 @@
+# Local connection data, credentials, and runtime reports
+settings.json*
+config.json*
+status.json*
+.env
+.env.*
+!.env.example
+*password*.txt
+*credential*.json
+*secret*.json
+*.key
+*.pem
+*.pfx
+*.p12
+*.log
+*.bak
+*.tmp
+*.dmp
+*.dump
+
+# Generated programs, dependencies, packages, and test output
+*.bin
+*.exe
+*.dll
+*.pdb
+*.zip
+*.7z
+bin/
+obj/
+artifacts/
+test-output/
+
+# Editor and OS files
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.user
+*.suo
+
+# Separate third-party OBS script used locally; not a bridge dependency
+/obs-zoom-to-mouse.lua

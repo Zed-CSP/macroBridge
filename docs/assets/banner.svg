@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-labelledby="title description">
+  <title id="title">Streaming Bridge</title>
+  <desc id="description">A retro terminal banner in cyan and magenta. Six keys route Windows desktops to OBS scenes.</desc>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#173039" stroke-width="1"/></pattern>
+    <pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 0H4" stroke="#030a10" stroke-opacity=".35"/></pattern>
+    <linearGradient id="glow" x1="0" x2="1"><stop stop-color="#42e8e0" stop-opacity=".09"/><stop offset="1" stop-color="#ff649f" stop-opacity=".07"/></linearGradient>
+  </defs>
+  <path fill="#080e14" d="M0 0h1200v320H0z"/>
+  <path fill="url(#glow)" d="M0 0h1200v320H0z"/>
+  <path fill="url(#grid)" d="M680 0h520v320H680z"/>
+  <path d="M24 24h1152v272H24z" fill="none" stroke="#27434d"/>
+  <path d="M24 24h18M24 24v18M1176 296h-18M1176 296v-18" fill="none" stroke="#42e8e0" stroke-width="2"/>
+  <path d="M1146 24h30v30" fill="none" stroke="#ff649f" stroke-width="2"/>
+  <g font-family="Consolas, 'Liberation Mono', monospace">
+    <path d="M56 56h6v6h-6z" fill="#ff649f"/>
+    <text x="75" y="63" fill="#42e8e0" font-size="13" letter-spacing="2">PERET / TOOLS / STREAMING-BRIDGE</text>
+    <text x="52" y="132" fill="#e7f0f2" font-size="55" font-weight="700" letter-spacing="-2">STREAMING</text>
+    <text x="358" y="132" fill="#42e8e0" font-size="55" font-weight="700" letter-spacing="-2">BRIDGE_</text>
+    <text x="56" y="175" fill="#99b1bb" font-size="17">One key. Two systems. Six channels.</text>
+    <g font-size="12" letter-spacing="1">
+      <path d="M56 221h121v28H56zM191 221h94v28h-94zM299 221h107v28H299z" fill="#0d171f" stroke="#27434d"/>
+      <text x="70" y="239" fill="#e7f0f2">WINDOWS x64</text>
+      <text x="207" y="239" fill="#42e8e0">OBS v5</text>
+      <text x="314" y="239" fill="#ff649f">MIT / C#</text>
+    </g>
+    <g transform="translate(724 90)">
+      <path d="M0 0h112v86H0zM158 0h112v86H158zM316 0h112v86H316z" fill="#080e14" stroke="#27434d"/>
+      <path d="M0 0v86M158 0v86" stroke="#42e8e0" stroke-width="3"/><path d="M428 0v86" stroke="#ff649f" stroke-width="3"/>
+      <g fill="#42e8e0" font-size="16" font-weight="700"><text x="28" y="47">G1-G6</text><text x="179" y="47">WINDOWS</text></g>
+      <text x="353" y="47" fill="#ff649f" font-size="16" font-weight="700">OBS</text>
+      <path d="M113 43h36l-6-6m6 6-6 6M271 43h36l-6-6m6 6-6 6" fill="none" stroke="#42e8e0"/>
+      <text x="1" y="118" fill="#99b1bb" font-size="11" letter-spacing="1.5">KEYBOARD  /  DESKTOP  /  PROGRAM SCENE</text>
+    </g>
+    <text x="1150" y="280" text-anchor="end" fill="#99b1bb" font-size="10" letter-spacing="2">NATIVE APP // LOCAL CONTROL</text>
+  </g>
+  <path fill="url(#scan)" d="M0 0h1200v320H0z"/>
+  <path d="M24 296h786" stroke="#42e8e0" stroke-width="2"/><path d="M810 296h156" stroke="#ff649f" stroke-width="2"/>
+</svg>
